@@ -138,9 +138,14 @@ if (!$predmet) {
     exit;
 }
 
-$documentTableHTML = Predmet_Data_Loader::loadDocuments($db, $conf, $langs, $caseId);
-$availableAkti = Predmet_Data_Loader::loadAvailableAkti($db, $caseId);
-$doc_count = Predmet_Data_Loader::countDocuments($db, $conf, $caseId);
+try {
+    $documentTableHTML = Predmet_Data_Loader::loadDocuments($db, $conf, $langs, $caseId);
+    $availableAkti = Predmet_Data_Loader::loadAvailableAkti($db, $caseId);
+    $doc_count = Predmet_Data_Loader::countDocuments($db, $conf, $caseId);
+} catch (Exception $e) {
+    dol_syslog("Error loading predmet data: " . $e->getMessage(), LOG_ERR);
+    die("Error 500: " . $e->getMessage());
+}
 
 $form = new Form($db);
 $formfile = new FormFile($db);
