@@ -132,8 +132,11 @@ class Predmet_View
             print '<div class="seup-otprema-list">';
 
             foreach ($otpreme as $otprema) {
-                $datum_formatted = date('d.m.Y', strtotime($otprema->datum_otpreme));
-                $kreiran_formatted = date('d.m.Y H:i', strtotime($otprema->datum_kreiranja));
+                $datum_timestamp = !empty($otprema->datum_otpreme) ? strtotime($otprema->datum_otpreme) : false;
+                $datum_formatted = $datum_timestamp !== false ? date('d.m.Y', $datum_timestamp) : 'N/A';
+
+                $kreiran_timestamp = !empty($otprema->datum_kreiranja) ? strtotime($otprema->datum_kreiranja) : false;
+                $kreiran_formatted = $kreiran_timestamp !== false ? date('d.m.Y H:i', $kreiran_timestamp) : 'N/A';
 
                 $nacin_icon = [
                     'posta' => 'fa-envelope',
