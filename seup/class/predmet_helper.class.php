@@ -566,8 +566,8 @@ class Predmet_helper
                 // Checkbox column
                 $documentTableHTML .= '<td>';
                 $documentTableHTML .= '<input type="checkbox" class="doc-checkbox" value="' . $doc->rowid . '" ';
-                $documentTableHTML .= 'data-filename="' . htmlspecialchars($doc->filename) . '" ';
-                $documentTableHTML .= 'data-filepath="' . htmlspecialchars($doc->filepath) . '">';
+                $documentTableHTML .= 'data-filename="' . htmlspecialchars($doc->filename ?? '') . '" ';
+                $documentTableHTML .= 'data-filepath="' . htmlspecialchars($doc->filepath ?? '') . '">';
                 $documentTableHTML .= '</td>';
                 
                 // Urb broj column (now first)
@@ -596,10 +596,10 @@ class Predmet_helper
                 if ($isPrilog) {
                     $documentTableHTML .= '<i class="fas fa-level-up-alt fa-rotate-90 me-2 text-muted"></i>';
                 }
-                $documentTableHTML .= '<div class="seup-file-icon ' . self::getFileIconClass($doc->filename) . '">';
-                $documentTableHTML .= '<i class="' . self::getFileIcon($doc->filename) . '"></i>';
+                $documentTableHTML .= '<div class="seup-file-icon ' . self::getFileIconClass($doc->filename ?? '') . '">';
+                $documentTableHTML .= '<i class="' . self::getFileIcon($doc->filename ?? '') . '"></i>';
                 $documentTableHTML .= '</div>';
-                $documentTableHTML .= htmlspecialchars($doc->filename);
+                $documentTableHTML .= htmlspecialchars($doc->filename ?? 'N/A');
                 $documentTableHTML .= '</div>';
                 $documentTableHTML .= '</td>';
 
@@ -608,11 +608,11 @@ class Predmet_helper
                 if (!empty($doc->date_c)) {
                     $date_formatted = dol_print_date($doc->date_c, '%d.%m.%Y %H:%M');
                 }
-                $documentTableHTML .= '<td><div class="seup-document-date"><i class="fas fa-calendar me-1"></i>' . $date_formatted . '</div></td>';
-                
+                $documentTableHTML .= '<td><div class="seup-document-date"><i class="fas fa-calendar me-1"></i>' . htmlspecialchars($date_formatted) . '</div></td>';
+
                 // Created by
                 $created_by = $doc->created_by ?? 'N/A';
-                $documentTableHTML .= '<td><div class="seup-document-user"><i class="fas fa-user me-1"></i>' . htmlspecialchars($created_by) . '</div></td>';
+                $documentTableHTML .= '<td><div class="seup-document-user"><i class="fas fa-user me-1"></i>' . htmlspecialchars($created_by ?? 'N/A') . '</div></td>';
                 
                 // Digital signature status
                 $documentTableHTML .= '<td>';
@@ -632,7 +632,7 @@ class Predmet_helper
                 $documentTableHTML .= '<div class="seup-document-actions">';
                 
                 // Download button
-                $download_url = DOL_URL_ROOT . '/document.php?modulepart=ecm&file=' . urlencode($relative_path . $doc->filename);
+                $download_url = DOL_URL_ROOT . '/document.php?modulepart=ecm&file=' . urlencode($relative_path . ($doc->filename ?? ''));
                 $documentTableHTML .= '<a href="' . $download_url . '" class="seup-document-btn seup-document-btn-download" target="_blank" title="Preuzmi">';
                 $documentTableHTML .= '<i class="fas fa-download"></i>';
                 $documentTableHTML .= '</a>';
@@ -645,15 +645,15 @@ class Predmet_helper
                 $documentTableHTML .= '<button class="seup-document-btn seup-document-btn-otprema registriraj-otpremu-btn" ';
                 $documentTableHTML .= 'data-ecm-file-id="' . $doc->rowid . '" ';
                 $documentTableHTML .= 'data-tip-dokumenta="' . $tip_dokumenta . '" ';
-                $documentTableHTML .= 'data-doc-name="' . htmlspecialchars($doc->filename) . '" ';
+                $documentTableHTML .= 'data-doc-name="' . htmlspecialchars($doc->filename ?? '') . '" ';
                 $documentTableHTML .= 'title="Registriraj otpremu">';
                 $documentTableHTML .= '<i class="fas fa-shipping-fast"></i>';
                 $documentTableHTML .= '</button>';
 
                 // Delete button
                 $documentTableHTML .= '<button class="seup-document-btn seup-document-btn-delete delete-document-btn" ';
-                $documentTableHTML .= 'data-filename="' . htmlspecialchars($doc->filename) . '" ';
-                $documentTableHTML .= 'data-filepath="' . htmlspecialchars($doc->filepath) . '" ';
+                $documentTableHTML .= 'data-filename="' . htmlspecialchars($doc->filename ?? '') . '" ';
+                $documentTableHTML .= 'data-filepath="' . htmlspecialchars($doc->filepath ?? '') . '" ';
                 $documentTableHTML .= 'title="Obriši dokument">';
                 $documentTableHTML .= '<i class="fas fa-trash"></i>';
                 $documentTableHTML .= '</button>';
