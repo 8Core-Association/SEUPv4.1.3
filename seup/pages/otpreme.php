@@ -237,6 +237,10 @@ if ($resql) {
     while ($obj = $db->fetch_object($resql)) {
         $otpreme[] = $obj;
     }
+} else {
+    // Debug error
+    dol_print_error($db);
+    exit;
 }
 
 $form = new Form($db);
