@@ -157,14 +157,14 @@ class Predmet_View
 
                 print '<div class="seup-otprema-main">';
                 print '<div class="seup-otprema-doc-info">';
-                print '<span class="seup-doc-badge seup-doc-badge-' . $otprema->tip_dokumenta . '">';
-                print '<i class="fas ' . ($otprema->tip_dokumenta == 'akt' ? 'fa-file-alt' : 'fa-paperclip') . '"></i> ';
-                print strtoupper($otprema->tip_dokumenta);
+                print '<span class="seup-doc-badge seup-doc-badge-' . htmlspecialchars($otprema->tip_dokumenta ?? '') . '">';
+                print '<i class="fas ' . (($otprema->tip_dokumenta ?? '') == 'akt' ? 'fa-file-alt' : 'fa-paperclip') . '"></i> ';
+                print strtoupper($otprema->tip_dokumenta ?? '');
                 print '</span>';
-                print '<span class="seup-doc-filename">' . htmlspecialchars($otprema->doc_filename) . '</span>';
+                print '<span class="seup-doc-filename">' . htmlspecialchars($otprema->doc_filename ?? 'N/A') . '</span>';
                 print '</div>';
                 print '<div class="seup-otprema-recipient">';
-                print '<i class="fas fa-user"></i> ' . htmlspecialchars($otprema->primatelj_naziv);
+                print '<i class="fas fa-user"></i> ' . htmlspecialchars($otprema->primatelj_naziv ?? 'N/A');
                 print '</div>';
                 print '</div>';
 
@@ -215,12 +215,12 @@ class Predmet_View
 
                 if (!empty($otprema->napomena)) {
                     print '<div class="seup-otprema-napomena">';
-                    print '<i class="fas fa-comment"></i> ' . htmlspecialchars($otprema->napomena);
+                    print '<i class="fas fa-comment"></i> ' . htmlspecialchars($otprema->napomena ?? '');
                     print '</div>';
                 }
 
                 print '<div class="seup-otprema-footer">';
-                print '<span class="seup-otprema-user">Kreirao: ' . htmlspecialchars($otprema->firstname . ' ' . $otprema->lastname) . '</span>';
+                print '<span class="seup-otprema-user">Kreirao: ' . htmlspecialchars(($otprema->firstname ?? '') . ' ' . ($otprema->lastname ?? '')) . '</span>';
                 print '<span class="seup-otprema-date">' . $kreiran_formatted . '</span>';
                 print '</div>';
 
