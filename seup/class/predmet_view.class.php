@@ -195,22 +195,19 @@ class Predmet_View
                     print '</div>';
                 }
 
-                if (!empty($otprema->fk_potvrda_ecm_file)) {
-                    require_once DOL_DOCUMENT_ROOT . '/ecm/class/ecmfiles.class.php';
-                    $ecm = new EcmFiles($this->db);
-                    $ecm->fetch((int) $otprema->fk_potvrda_ecm_file);
+                if (!empty($otprema->fk_potvrda_ecm_file) &&
+                    !empty($otprema->potvrda_filepath) &&
+                    !empty($otprema->potvrda_filename)) {
 
-                    if (!empty($ecm->filepath) && !empty($ecm->filename)) {
-                        $rel = $ecm->filepath . '/' . $ecm->filename;
-                        $url = DOL_URL_ROOT . '/document.php?modulepart=ecm&file=' . urlencode($rel);
+                    $rel = $otprema->potvrda_filepath . '/' . $otprema->potvrda_filename;
+                    $url = DOL_URL_ROOT . '/document.php?modulepart=ecm&file=' . urlencode($rel);
 
-                        print '<div class="seup-otprema-detail-item seup-otprema-potvrda">';
-                        print '<i class="fas fa-check-circle" style="color: var(--success-color);"></i> ';
-                        print '<a href="' . $url . '" target="_blank" class="seup-download-link">';
-                        print '<i class="fas fa-download"></i> Preuzmi potvrdu';
-                        print '</a>';
-                        print '</div>';
-                    }
+                    print '<div class="seup-otprema-detail-item seup-otprema-potvrda">';
+                    print '<i class="fas fa-check-circle" style="color: var(--success-color);"></i> ';
+                    print '<a href="' . $url . '" target="_blank" class="seup-download-link">';
+                    print '<i class="fas fa-download"></i> Preuzmi potvrdu';
+                    print '</a>';
+                    print '</div>';
                 }
                 print '</div>';
                 }

@@ -212,7 +212,10 @@ $sql = "SELECT
             o.naziv_predmeta,
             o.napomena,
             o.tip_dokumenta,
+            o.fk_potvrda_ecm_file,
             ef.filename as dokument_naziv,
+            potvrda.filename as potvrda_filename,
+            potvrda.filepath as potvrda_filepath,
             p.klasa_br,
             p.sadrzaj,
             p.dosje_broj,
@@ -224,6 +227,7 @@ $sql = "SELECT
             MONTH(o.datum_otpreme) as otprema_mjesec
         FROM " . MAIN_DB_PREFIX . "a_otprema o
         LEFT JOIN " . MAIN_DB_PREFIX . "ecm_files ef ON o.fk_ecm_file = ef.rowid
+        LEFT JOIN " . MAIN_DB_PREFIX . "ecm_files potvrda ON o.fk_potvrda_ecm_file = potvrda.rowid
         LEFT JOIN " . MAIN_DB_PREFIX . "a_predmet p ON o.ID_predmeta = p.ID_predmeta
         ORDER BY {$sortField} {$sortOrder}";
 
@@ -468,17 +472,16 @@ if (count($otpreme)) {
         print '<button type="button" class="seup-action-btn seup-btn-excel" title="Export Excel" data-id="' . $otprema->ID_otpreme . '" onclick="event.preventDefault(); event.stopPropagation(); window.exportSingleOtprema(' . $otprema->ID_otpreme . '); return false;">';
         print '<i class="fas fa-file-excel"></i>';
         print '</button>';
-        if (!empty($otprema->fk_potvrda_ecm_file)) {
-            require_once DOL_DOCUMENT_ROOT . '/ecm/class/ecmfiles.class.php';
-            $ecm = new EcmFiles($db);
-            $ecm->fetch((int) $otprema->fk_potvrda_ecm_file);
-            if (!empty($ecm->filepath) && !empty($ecm->filename)) {
-                $rel = $ecm->filepath . '/' . $ecm->filename;
-                $url = DOL_URL_ROOT . '/document.php?modulepart=ecm&file=' . urlencode($rel);
-                print '<a class="seup-action-btn seup-action-btn-download" href="' . $url . '" title="Preuzmi potvrdu" target="_blank">';
-                print '<i class="fas fa-download"></i>';
-                print '</a>';
-            }
+        if (!empty($otprema->fk_potvrda_ecm_file) &&
+            !empty($otprema->potvrda_filepath) &&
+            !empty($otprema->potvrda_filename)) {
+
+            $rel = $otprema->potvrda_filepath . '/' . $otprema->potvrda_filename;
+            $url = DOL_URL_ROOT . '/document.php?modulepart=ecm&file=' . urlencode($rel);
+
+            print '<a class="seup-action-btn seup-action-btn-download" href="' . $url . '" title="Preuzmi potvrdu" target="_blank">';
+            print '<i class="fas fa-download"></i>';
+            print '</a>';
         }
         print '</div>';
         print '</td>';
